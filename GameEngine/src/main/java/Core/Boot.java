@@ -1,5 +1,7 @@
 package Core;
 
+
+import Core.screens.StartScreen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -21,6 +23,6 @@ public class Boot extends Game {
         this.heightScreen = Gdx.graphics.getHeight();
         this.orthographicCamera = new OrthographicCamera();
         this.orthographicCamera.setToOrtho(false, widthScreen,heightScreen);
-        setScreen(new GameScreen(orthographicCamera));
+        setScreen(new StartScreen(orthographicCamera));
     }
 }

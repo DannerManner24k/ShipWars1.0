@@ -8,7 +8,7 @@
     <artifactId>GameEngine</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>ShipWars</name>
+    <name>GameEngine</name>
 
     <properties>
         <gdx.version>1.9.13</gdx.version>
@@ -16,6 +16,11 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>Map</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>
             <artifactId>gdx-box2d-platform</artifactId>
