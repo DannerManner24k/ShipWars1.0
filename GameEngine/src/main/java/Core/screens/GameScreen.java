@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import org.lwjgl.opengl.GL20;
+import dk.geight.player.Player;
 
 import dk.geight.map.Map;
 
@@ -22,12 +23,14 @@ public class GameScreen extends ScreenAdapter {
     private World world; // Box2D world
     private Box2DDebugRenderer box2DDebugRenderer; // Box2D debug renderer
     private final Map map;
+    private Player player;
 
     public GameScreen(OrthographicCamera camera) {
         this.camera = camera; // Set the camera
         this.batch = new SpriteBatch();// Set the batch
         this.world = new World(new Vector2(0,0), false); // Set the world
         this.box2DDebugRenderer = new Box2DDebugRenderer(); // Set the debug renderer
+        this.player = new Player(100, 50, 500); // Replace with actual values
 
         // Initialize the map
         this.map = new Map();
@@ -45,9 +48,23 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void cameraUpdate() {
-        camera.position.set(1920, 1080, 0); // Set the camera position
-        camera.update();// Update the camera
+        float deltaTime = Gdx.graphics.getDeltaTime(); // Get the time passed since the last frame
+        float cameraMoveSpeed = 500; // Set the camera's movement speed (adjust as necessary)
+
+        // Check for left or right arrow key press to move camera left or right
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            camera.position.x -= cameraMoveSpeed * deltaTime;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            camera.position.x += cameraMoveSpeed * deltaTime;
+        }
+
+        // Clamp the camera position to ensure it doesn't go past the map edges
+        camera.position.x = Math.max(camera.position.x, 1920 / 2); // Half of window width
+        camera.position.x = Math.min(camera.position.x, 7680 - 1920 / 2); // Map width minus half window width
+
+        camera.update(); // Update the camera with the new position
     }
+
 
     @Override
     public void render(float delta) {
@@ -63,6 +80,8 @@ public class GameScreen extends ScreenAdapter {
 
         map.render(batch, screenWidth, screenHeight);
 
+        batch.draw(player.getPlayerTexture(), player.getPosition().getX(), player.getPosition().getY()); // Draw the player
+
         batch.end();// End the batch
         box2DDebugRenderer.render(world, camera.combined.scl(PPM));// Render the Box2D world
     }
@@ -73,6 +92,7 @@ public class GameScreen extends ScreenAdapter {
         batch.dispose();
         world.dispose();
         map.dispose();
+        player.dispose();
         box2DDebugRenderer.dispose();
     }
 
