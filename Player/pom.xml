@@ -16,7 +16,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <gdx.version>1.9.13</gdx.version>
+        <gdx.version>1.12.1</gdx.version>
         <java.version>17</java.version>
     </properties>
 
