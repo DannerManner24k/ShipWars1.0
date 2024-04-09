@@ -36,7 +36,7 @@ public class GameScreen extends ScreenAdapter {
         this.myPlayer = new MyPlayer(); // Set the player
         this.map = new Map();// Initialize the map
 
-        shootingMechanics = new ShootingMechanics(myPlayer.getPlayer());
+        this.shootingMechanics = new ShootingMechanics(myPlayer.getPlayer(), camera); // Pass the camera here
         Gdx.input.setInputProcessor(shootingMechanics);
     }
 
