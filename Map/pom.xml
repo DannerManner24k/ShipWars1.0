@@ -11,7 +11,7 @@
     <name>Map</name>
 
     <properties>
-        <gdx.version>1.9.13</gdx.version>
+        <gdx.version>1.12.1</gdx.version>
         <java.version>17</java.version>
     </properties>
 
