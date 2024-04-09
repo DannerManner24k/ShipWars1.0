@@ -11,7 +11,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import dk.geight.player.MyPlayer;
 import org.lwjgl.opengl.GL20;
-import dk.geight.player.Player;
+import dk.geight.player.mechanics.ShootingMechanics;
 
 import dk.geight.map.Map;
 
@@ -26,15 +26,18 @@ public class GameScreen extends ScreenAdapter {
     private final Map map;
     private MyPlayer myPlayer;
 
+    private ShootingMechanics shootingMechanics;
+
     public GameScreen(OrthographicCamera camera) {
         this.camera = camera; // Set the camera
         this.batch = new SpriteBatch();// Set the batch
         this.world = new World(new Vector2(0,0), false); // Set the world
         this.box2DDebugRenderer = new Box2DDebugRenderer(); // Set the debug renderer
         this.myPlayer = new MyPlayer(); // Set the player
+        this.map = new Map();// Initialize the map
 
-        // Initialize the map
-        this.map = new Map();
+        shootingMechanics = new ShootingMechanics(myPlayer.getPlayer());
+        Gdx.input.setInputProcessor(shootingMechanics);
     }
 
     private void update() {
@@ -84,6 +87,8 @@ public class GameScreen extends ScreenAdapter {
 
         myPlayer.render(batch, myPlayer.getPlayer().getPosition().getX(), myPlayer.getPlayer().getPosition().getY()); // Render the player
 
+        shootingMechanics.render(); // Render the shot path
+
         batch.end();// End the batch
         box2DDebugRenderer.render(world, camera.combined.scl(PPM));// Render the Box2D world
     }
@@ -95,6 +100,7 @@ public class GameScreen extends ScreenAdapter {
         world.dispose();
         map.dispose();
         myPlayer.dispose();
+        shootingMechanics.dispose();
         box2DDebugRenderer.dispose();
     }
 
