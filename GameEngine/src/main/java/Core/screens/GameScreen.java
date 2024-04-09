@@ -62,6 +62,8 @@ public class GameScreen extends ScreenAdapter {
         camera.position.x = Math.max(camera.position.x, 1920 / 2); // Half of window width
         camera.position.x = Math.min(camera.position.x, 7680 - 1920 / 2); // Map width minus half window width
 
+        camera.position.set(1920, 1080, 0);
+
         camera.update(); // Update the camera with the new position
     }
 
