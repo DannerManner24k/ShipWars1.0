@@ -15,6 +15,9 @@ public class CameraMovement {
     //Fixed positions
     private float fixedPosition1 = 5000;
     private float fixedPosition2 = 960;
+
+    //Pan
+    private float panSpeed = 0.01f;
     private boolean isPanning = false;
     private Vector3 targetPosition;
 
@@ -74,8 +77,14 @@ public class CameraMovement {
         if (camera.position.epsilonEquals(targetPosition, 0.1f)) {
             isPanning = false; // Stop panning if close to the target
         } else {
-            camera.position.lerp(targetPosition, 0.1f); // Smoothly interpolate to target position
+            camera.position.lerp(targetPosition, panSpeed); // Smoothly interpolate to target position
         }
+    }
+
+
+
+    private void setPanSpeed(float panSpeed) {
+        this.panSpeed = panSpeed;
     }
 
 
