@@ -21,17 +21,12 @@ public class StandardMap {
     public void render(SpriteBatch batch, int screenWidth, int screenHeight) {
 
         // Calculate the horizontal and vertical offsets to center the scaled image on the screen
-        float offsetX = (screenWidth - width) / 2f;
-        float offsetY = -screenHeight / 2f;
+        float offsetX = 0;
+        float offsetY = 0;
 
 
         // Draw the background texture
         batch.draw(background, offsetX, offsetY);
-
-
-
-        // Draw the background texture
-        batch.draw(background, offsetX, -offsetY);
     }
 
     public void dispose() {

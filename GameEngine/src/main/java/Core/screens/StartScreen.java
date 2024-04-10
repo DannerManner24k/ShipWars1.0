@@ -1,6 +1,7 @@
 package Core.screens;
 
 import Core.Boot;
+import GameEngine.CameraMovement;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -17,10 +18,11 @@ public class StartScreen extends ScreenAdapter {
     private Button startButton;
     private Skin skin; // Use a skin for the button - you can create or use existing one
 
-    public StartScreen(OrthographicCamera camera) {
+    public StartScreen(CameraMovement cameraMovement) {
         batch = new SpriteBatch();
         stage = new Stage();
         Gdx.input.setInputProcessor(stage); // Set input processor
+
 
         // Initialize UI components
         skin = new Skin(Gdx.files.internal("GameEngine/assets/uiskin.json")); // Load your skin file
@@ -33,7 +35,7 @@ public class StartScreen extends ScreenAdapter {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 // Change to the game screen when the button is pressed
-                Boot.INSTANCE.setScreen(new GameScreen(camera));
+                Boot.INSTANCE.setScreen(new GameScreen(cameraMovement));
             }
         });
 
