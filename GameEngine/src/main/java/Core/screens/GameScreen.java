@@ -82,11 +82,10 @@ public class GameScreen extends ScreenAdapter {
 
         map.render(batch, screenWidth, screenHeight);
 
-        myPlayer.render(batch, myPlayer.getPlayer().getPosition().getX(), myPlayer.getPlayer().getPosition().getY()); // Render the player
-
-        shootingMechanics.render(); // Render the shot
+        myPlayer.render(batch, myPlayer.getPlayer().getPosition().getX(), myPlayer.getPlayer().getPosition().getY()); // Render the player// Render the shot
 
         batch.end();// End the batch
+        shootingMechanics.render();
         box2DDebugRenderer.render(world, camera.combined.scl(PPM));// Render the Box2D world
     }
 
