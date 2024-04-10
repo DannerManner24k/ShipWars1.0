@@ -6,7 +6,6 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import dk.geight.player.MyPlayer;
@@ -36,8 +35,7 @@ public class GameScreen extends ScreenAdapter {
         this.myPlayer = new MyPlayer(); // Set the player
         this.map = new Map();// Initialize the map
 
-        this.shootingMechanics = new ShootingMechanics(myPlayer.getPlayer(), camera); // Pass the camera here
-        Gdx.input.setInputProcessor(shootingMechanics);
+        this.shootingMechanics = new ShootingMechanics(myPlayer.getPlayer()); // Pass the player here
     }
 
     private void update() {
@@ -66,7 +64,6 @@ public class GameScreen extends ScreenAdapter {
         camera.position.x = Math.max(camera.position.x, 1920 / 2); // Half of window width
         camera.position.x = Math.min(camera.position.x, 7680 - 1920 / 2); // Map width minus half window width
 
-
         camera.update(); // Update the camera with the new position
     }
 
@@ -87,7 +84,7 @@ public class GameScreen extends ScreenAdapter {
 
         myPlayer.render(batch, myPlayer.getPlayer().getPosition().getX(), myPlayer.getPlayer().getPosition().getY()); // Render the player
 
-        shootingMechanics.render(); // Render the shot path
+        shootingMechanics.render(); // Render the shot
 
         batch.end();// End the batch
         box2DDebugRenderer.render(world, camera.combined.scl(PPM));// Render the Box2D world
