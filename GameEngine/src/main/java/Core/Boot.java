@@ -4,13 +4,13 @@ package Core;
 import Core.screens.StartScreen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import GameEngine.CameraMovement;
 
 public class Boot extends Game {
 
     public static Boot INSTANCE; // Singleton instance
     private int widthScreen, heightScreen; // Screen dimensions
-    private OrthographicCamera orthographicCamera; // Camera to render the game
+    private CameraMovement cameraMovement; // Camera to render the game
 
     public Boot() {
         INSTANCE = this;
@@ -21,8 +21,7 @@ public class Boot extends Game {
     public void create() {
         this.widthScreen = Gdx.graphics.getWidth();
         this.heightScreen = Gdx.graphics.getHeight();
-        this.orthographicCamera = new OrthographicCamera();
-        this.orthographicCamera.setToOrtho(false, widthScreen,heightScreen);
-        setScreen(new StartScreen(orthographicCamera));
+        this.cameraMovement = new CameraMovement(widthScreen, heightScreen);
+        setScreen(new StartScreen(cameraMovement));
     }
 }

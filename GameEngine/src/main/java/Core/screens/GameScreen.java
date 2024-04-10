@@ -1,5 +1,7 @@
 package Core.screens;
 
+import Core.Boot;
+import GameEngine.CameraMovement;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
@@ -24,22 +26,27 @@ public class GameScreen extends ScreenAdapter {
     private World world; // Box2D world
     private Box2DDebugRenderer box2DDebugRenderer; // Box2D debug renderer
     private final Map map;
-    private MyPlayer myPlayer;
+    private final MyPlayer myPlayer;
+    private CameraMovement cameraMovement;
 
-    public GameScreen(OrthographicCamera camera) {
-        this.camera = camera; // Set the camera
+
+    public GameScreen(CameraMovement cameraMovement) {
+        this.cameraMovement = cameraMovement;
+        this.camera = cameraMovement.getCamera();
         this.batch = new SpriteBatch();// Set the batch
         this.world = new World(new Vector2(0,0), false); // Set the world
         this.box2DDebugRenderer = new Box2DDebugRenderer(); // Set the debug renderer
-        this.myPlayer = new MyPlayer(); // Set the player
+        // Initialize the components
 
-        // Initialize the map
+        this.myPlayer = new MyPlayer(); // Set the player
         this.map = new Map();
     }
 
+
+
     private void update() {
         world.step(1/60f, 6, 2); // Update the world
-        cameraUpdate(); // Update the camera
+        cameraMovement.updateCamera(); // Updated line
 
         batch.setProjectionMatrix(camera.combined); // Set the batch projection matrix
 
@@ -48,24 +55,7 @@ public class GameScreen extends ScreenAdapter {
         }
     }
 
-    private void cameraUpdate() {
-        float deltaTime = Gdx.graphics.getDeltaTime(); // Get the time passed since the last frame
-        float cameraMoveSpeed = 500; // Set the camera's movement speed (adjust as necessary)
 
-        // Check for left or right arrow key press to move camera left or right
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            camera.position.x -= cameraMoveSpeed * deltaTime;
-        } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            camera.position.x += cameraMoveSpeed * deltaTime;
-        }
-
-        // Clamp the camera position to ensure it doesn't go past the map edges
-        camera.position.x = Math.max(camera.position.x, 1920 / 2); // Half of window width
-        camera.position.x = Math.min(camera.position.x, 7680 - 1920 / 2); // Map width minus half window width
-
-
-        camera.update(); // Update the camera with the new position
-    }
 
 
     @Override
