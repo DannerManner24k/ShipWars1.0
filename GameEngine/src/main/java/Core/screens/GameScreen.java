@@ -6,11 +6,11 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import dk.geight.player.MyPlayer;
 import org.lwjgl.opengl.GL20;
-import dk.geight.player.Player;
+import dk.geight.player.mechanics.ShootingMechanics;
 
 import dk.geight.map.Map;
 
@@ -23,17 +23,19 @@ public class GameScreen extends ScreenAdapter {
     private World world; // Box2D world
     private Box2DDebugRenderer box2DDebugRenderer; // Box2D debug renderer
     private final Map map;
-    private Player player;
+    private MyPlayer myPlayer;
+
+    private ShootingMechanics shootingMechanics;
 
     public GameScreen(OrthographicCamera camera) {
         this.camera = camera; // Set the camera
         this.batch = new SpriteBatch();// Set the batch
         this.world = new World(new Vector2(0,0), false); // Set the world
         this.box2DDebugRenderer = new Box2DDebugRenderer(); // Set the debug renderer
-        this.player = new Player(100, 50, 500); // Replace with actual values
+        this.myPlayer = new MyPlayer(); // Set the player
+        this.map = new Map();// Initialize the map
 
-        // Initialize the map
-        this.map = new Map();
+        this.shootingMechanics = new ShootingMechanics(myPlayer.getPlayer()); // Pass the player here
     }
 
     private void update() {
@@ -62,8 +64,6 @@ public class GameScreen extends ScreenAdapter {
         camera.position.x = Math.max(camera.position.x, 1920 / 2); // Half of window width
         camera.position.x = Math.min(camera.position.x, 7680 - 1920 / 2); // Map width minus half window width
 
-        camera.position.set(1920, 1080, 0);
-
         camera.update(); // Update the camera with the new position
     }
 
@@ -82,9 +82,10 @@ public class GameScreen extends ScreenAdapter {
 
         map.render(batch, screenWidth, screenHeight);
 
-        batch.draw(player.getPlayerTexture(), player.getPosition().getX(), player.getPosition().getY()); // Draw the player
+        myPlayer.render(batch, myPlayer.getPlayer().getPosition().getX(), myPlayer.getPlayer().getPosition().getY()); // Render the player// Render the shot
 
         batch.end();// End the batch
+        shootingMechanics.render();
         box2DDebugRenderer.render(world, camera.combined.scl(PPM));// Render the Box2D world
     }
 
@@ -94,7 +95,8 @@ public class GameScreen extends ScreenAdapter {
         batch.dispose();
         world.dispose();
         map.dispose();
-        player.dispose();
+        myPlayer.dispose();
+        shootingMechanics.dispose();
         box2DDebugRenderer.dispose();
     }
 
