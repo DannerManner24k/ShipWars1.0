@@ -19,7 +19,8 @@ public class ShootingMechanics{
         if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             shapeRenderer.setColor(Color.RED);
-            shapeRenderer.line(player.getPosition().getX(), player.getPosition().getY(), Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
+            Gdx.gl.glLineWidth(3);
+            shapeRenderer.line(player.getPosition().getX()+160, player.getPosition().getY()+115, Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
             shapeRenderer.end();
         }
     }

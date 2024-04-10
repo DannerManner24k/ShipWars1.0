@@ -17,7 +17,7 @@ public class CameraMovement {
     private float fixedPosition2 = 960;
 
     //Pan
-    private float panSpeed = 0.01f;
+    private float panSpeed = 0.015f;
     private boolean isPanning = false;
     private Vector3 targetPosition;
 
