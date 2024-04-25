@@ -13,6 +13,8 @@
         <module>Map</module>
         <module>Player</module>
         <module>Character</module>
+        <module>Weapon</module>
+        <module>Bullet</module>
     </modules>
 
     <properties>
