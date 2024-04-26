@@ -7,35 +7,45 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 public class CameraMovement {
-
-    //Camera setup
+    //Creating a singleton and camera setup
+    private static CameraMovement instance;
+    private int widthScreen, heightScreen;
     private final OrthographicCamera camera;
     private final float initialX = 500;
 
-    //Fixed positions
-    private float fixedPosition1 = 5000;
-    private float fixedPosition2 = 960;
+    private CameraMovement(int width, int height) {
+        this.widthScreen = width;
+        this.heightScreen = height;
 
-    //Pan
-    private float panSpeed = 0.01f;
-    private boolean isPanning = false;
-    private Vector3 targetPosition;
-
-
-    public CameraMovement(int width, int height) {
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, width, height);
+        camera.setToOrtho(false, widthScreen, heightScreen);
         this.targetPosition = new Vector3();
         setInitialPosition(initialX);
     }
 
-    public OrthographicCamera getCamera() {
-        return camera;
+    // Static method for initializing the camera singleton
+    public static synchronized void initialize(int width, int height) {
+        if (instance == null) {
+            instance = new CameraMovement(width, height);
+        } else {
+            // Handle re-initialization logic here
+            // if the camera settings needs to be changed without creating a new instance
+            instance.widthScreen = width;
+            instance.heightScreen = height;
+        }
     }
 
-    private void setInitialPosition(float x){
-        camera.position.set(x, 1080/2, 0);
-        camera.update();
+    // Static method to get the instance of the class
+    public static synchronized CameraMovement getInstance() {
+        if (instance == null) {
+            throw new IllegalStateException("CameraMovement is not initialized");
+        }
+        return instance;
+    }
+
+    // Get camera
+    public OrthographicCamera getCamera () {
+        return camera;
     }
 
     public void updateCamera() {
@@ -52,7 +62,27 @@ public class CameraMovement {
         camera.position.x = Math.min(camera.position.x, 7680 - 1920 / 2);
         handlePanning();
         camera.update();
+
     }
+
+
+
+
+    //Fixed positions and pan
+    private float fixedPosition1 = 5000;
+    private float fixedPosition2 = 960;
+
+    private float panSpeed = 0.01f;
+    private boolean isPanning = false;
+    private Vector3 targetPosition;
+
+
+    private void setInitialPosition(float x){
+        camera.position.set(x, 1080/2, 0);
+        camera.update();
+    }
+
+
 
     private void handlePanning() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.D)) {
@@ -80,8 +110,6 @@ public class CameraMovement {
             camera.position.lerp(targetPosition, panSpeed); // Smoothly interpolate to target position
         }
     }
-
-
 
     private void setPanSpeed(float panSpeed) {
         this.panSpeed = panSpeed;

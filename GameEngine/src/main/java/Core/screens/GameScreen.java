@@ -21,25 +21,25 @@ import static Helper.Constants.PPM;
 
 public class GameScreen extends ScreenAdapter {
 
-    private OrthographicCamera camera; // Camera to render the game
     private SpriteBatch batch; // Batch to render the game
     private World world; // Box2D world
     private Box2DDebugRenderer box2DDebugRenderer; // Box2D debug renderer
     private final Map map;
     private final MyPlayer myPlayer;
-    private CameraMovement cameraMovement;
+    private final CameraMovement cameraMovement;
+    private final OrthographicCamera camera; // Camera to render the game
 
 
-    public GameScreen(CameraMovement cameraMovement) {
-        this.cameraMovement = cameraMovement;
-        this.camera = cameraMovement.getCamera();
+    public GameScreen() {
         this.batch = new SpriteBatch();// Set the batch
         this.world = new World(new Vector2(0,0), false); // Set the world
         this.box2DDebugRenderer = new Box2DDebugRenderer(); // Set the debug renderer
-        // Initialize the components
 
-        this.myPlayer = new MyPlayer(); // Set the player
+        // Initialize the components
+        this.myPlayer = new MyPlayer();
         this.map = new Map();
+        this.cameraMovement = CameraMovement.getInstance();
+        this.camera = cameraMovement.getCamera();
     }
 
 
@@ -56,8 +56,6 @@ public class GameScreen extends ScreenAdapter {
     }
 
 
-
-
     @Override
     public void render(float delta) {
         this.update();// Update the game
@@ -66,7 +64,6 @@ public class GameScreen extends ScreenAdapter {
 
         int screenWidth = Gdx.graphics.getWidth();
         int screenHeight = Gdx.graphics.getHeight();
-
 
         batch.begin(); // Begin the batch
 
