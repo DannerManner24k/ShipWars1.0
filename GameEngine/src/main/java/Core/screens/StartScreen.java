@@ -16,13 +16,12 @@ public class StartScreen extends ScreenAdapter {
     private SpriteBatch batch;
     private Stage stage;
     private Button startButton;
-    private Skin skin; // Use a skin for the button - you can create or use existing one
+    private Skin skin; // Use a skin for the button
 
-    public StartScreen(CameraMovement cameraMovement) {
+    public StartScreen() {
         batch = new SpriteBatch();
         stage = new Stage();
         Gdx.input.setInputProcessor(stage); // Set input processor
-
 
         // Initialize UI components
         skin = new Skin(Gdx.files.internal("GameEngine/assets/uiskin.json")); // Load your skin file
@@ -35,7 +34,7 @@ public class StartScreen extends ScreenAdapter {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 // Change to the game screen when the button is pressed
-                Boot.INSTANCE.setScreen(new GameScreen(cameraMovement));
+                Boot.INSTANCE.setScreen(new GameScreen());
             }
         });
 
@@ -46,7 +45,6 @@ public class StartScreen extends ScreenAdapter {
     public void render(float delta) {
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
-
     }
 
     @Override
